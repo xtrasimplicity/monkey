@@ -1,0 +1,23 @@
+---
+version: '3.5'
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: monkey-mongo
+    network_mode: host
+    volumes:
+      - db:/data/db
+
+  monkey-island:
+    image: infectionmonkey/monkey-island:latest
+    container_name: monkey-island
+    command: "--setup-only" # Comment this out once the setup has been completed.
+#    command: "--server-config=/monkey_island_data/server_config.json" # Uncomment this once you've run setup once.
+    network_mode: host
+    user: "1000:1000"
+    volumes:
+      - ./monkey_island_data:/monkey_island_data
+
+volumes:
+  db:
+
