@@ -9,6 +9,8 @@ psutil = "*"
 [dev-packages]
 monkey-types = "*"
 monkeyevents = "*"
+monkeytoolbox = "*"
+monkey-agentpluginapi = "*"
 
 [requires]
 python_version = "3.11"

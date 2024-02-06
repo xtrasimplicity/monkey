@@ -23,12 +23,10 @@ from common.agent_plugins import (
     AgentPluginMetadata,
     AgentPluginRepositoryIndex,
 )
-from common.decorators import request_cache
 from infection_monkey.exploit.log4shell_utils.ldap_server import LDAPServerFactory
 from infection_monkey.exploit.tools import secret_type_filter
 from infection_monkey.exploit.zerologon import NetrServerPasswordSet, NetrServerPasswordSetResponse
 from infection_monkey.exploit.zerologon_utils.remote_shell import RemoteShell
-from infection_monkey.i_puppet import TargetHost
 from infection_monkey.network.firewall import FirewallApp, WinAdvFirewall, WinFirewall
 from infection_monkey.utils import commands
 from monkey_island.cc.deployment import Deployment
@@ -37,9 +35,6 @@ from monkey_island.cc.repositories import IAgentEventRepository, MongoAgentEvent
 from monkey_island.cc.services.agent_plugin_service import AgentPluginService
 from monkey_island.cc.services.authentication_service.user import User
 from monkey_island.cc.services.reporting.exploitations.monkey_exploitation import MonkeyExploitation
-
-TargetHost.model_config
-TargetHost.dump_ports
 
 # Pydantic configurations are not picked up
 ScanTargetConfiguration.blocked_ips_valid
@@ -154,8 +149,6 @@ commands.build_dropper_script_download_command
 commands.build_download_command_windows_powershell_webclient
 commands.build_download_command_windows_powershell_webrequest
 
-request_cache
-
 # Remove after the plugin interface is in place
 AgentPluginMetadata.resource_path
 AgentPluginMetadata._str_to_pure_posix_path
@@ -181,9 +174,3 @@ RDPIOSettings.video_out_format
 RDPIOSettings.clipboard_use_pyperclip
 
 AgentPluginService.install_agent_plugin_from_repository
-
-
-# can probably remove after #3751
-from infection_monkey.local_machine_info import LocalMachineInfo
-
-LocalMachineInfo.temporary_directory

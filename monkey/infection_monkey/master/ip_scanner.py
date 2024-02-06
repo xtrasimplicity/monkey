@@ -4,12 +4,13 @@ import threading
 from queue import Queue
 from typing import Callable, Dict, Sequence
 
+from agentpluginapi import FingerprintData, PingScanData, PortScanDataDict
+from monkeytoolbox import interruptible_iter, run_worker_threads
 from monkeytypes import Event, PortStatus
 
 from common.agent_configuration.agent_sub_configurations import NetworkScanConfiguration
-from infection_monkey.i_puppet import FingerprintData, IPuppet, PingScanData, PortScanDataDict
+from infection_monkey.i_puppet import IPuppet
 from infection_monkey.network import NetworkAddress
-from infection_monkey.utils.threading import interruptible_iter, run_worker_threads
 
 from . import IPScanResults
 

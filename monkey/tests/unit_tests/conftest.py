@@ -8,8 +8,11 @@ from _pytest.monkeypatch import MonkeyPatch
 MONKEY_BASE_PATH = str(Path(__file__).parent.parent.parent)
 sys.path.insert(0, MONKEY_BASE_PATH)
 
+from agentpluginapi import ITCPPortSelector  # noqa: E402
+from monkeytoolbox import get_os  # noqa: E402
+from monkeytypes import OperatingSystem  # noqa: E402
+
 from common.agent_configuration import DEFAULT_AGENT_CONFIGURATION, AgentConfiguration  # noqa: E402
-from common.utils.environment import is_windows_os  # noqa: E402
 from infection_monkey.network import TCPPortSelector  # noqa: E402
 
 
@@ -40,7 +43,7 @@ def agent_plugin_repository_index_simple_file(data_for_tests_dir) -> Path:
 
 @pytest.fixture
 def home_env_variable():
-    if is_windows_os():
+    if get_os() == OperatingSystem.WINDOWS:
         return "%USERPROFILE%"
     else:
         return "$HOME"
@@ -79,5 +82,5 @@ def default_agent_configuration() -> AgentConfiguration:
 
 
 @pytest.fixture(scope="session")
-def tcp_port_selector() -> TCPPortSelector:
+def tcp_port_selector() -> ITCPPortSelector:
     return TCPPortSelector()

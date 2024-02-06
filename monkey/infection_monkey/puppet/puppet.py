@@ -1,20 +1,22 @@
 import logging
 from typing import Any, Dict, Mapping, Sequence
 
+from agentpluginapi import (
+    ExploiterResult,
+    FingerprintData,
+    PingScanData,
+    PortScanDataDict,
+    TargetHost,
+)
 from monkeytypes import AgentID, AgentPluginType, Credentials, Event, NetworkPort
 
 from common.common_consts.timeouts import CONNECTION_TIMEOUT
 from common.event_queue import IAgentEventQueue
 from infection_monkey import network_scanning
 from infection_monkey.i_puppet import (
-    ExploiterResult,
-    FingerprintData,
     IncompatibleLocalOperatingSystemError,
     IncompatibleTargetOperatingSystemError,
     IPuppet,
-    PingScanData,
-    PortScanDataDict,
-    TargetHost,
 )
 from infection_monkey.puppet import PluginCompatibilityVerifier
 

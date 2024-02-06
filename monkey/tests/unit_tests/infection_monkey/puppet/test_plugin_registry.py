@@ -2,21 +2,24 @@ from typing import Dict
 from unittest.mock import MagicMock
 
 import pytest
+from agentpluginapi import (
+    IAgentBinaryRepository,
+    IAgentOTPProvider,
+    IPropagationCredentialsRepository,
+    ITCPPortSelector,
+)
 from monkeytypes import AgentID, AgentPluginManifest, AgentPluginType, OperatingSystem
 from serpentarium import MultiprocessingPlugin, PluginLoader, SingleUsePlugin
 
 from common.agent_plugins import AgentPlugin
 from common.event_queue import IAgentEventPublisher
-from infection_monkey.exploit import IAgentBinaryRepository, IAgentOTPProvider
 from infection_monkey.i_puppet import UnknownPluginError
 from infection_monkey.island_api_client import (
     IIslandAPIClient,
     IslandAPIError,
     IslandAPIRequestError,
 )
-from infection_monkey.network import TCPPortSelector
 from infection_monkey.plugin.i_plugin_factory import IPluginFactory
-from infection_monkey.propagation_credentials_repository import IPropagationCredentialsRepository
 from infection_monkey.puppet import PluginRegistry, PluginSourceExtractor
 
 AGENT_ID = AgentID("707d801b-68cf-44d1-8a4e-7e1a89c412f8")
@@ -48,8 +51,8 @@ def dummy_propagation_credentials_repository() -> IPropagationCredentialsReposit
 
 
 @pytest.fixture
-def dummy_tcp_port_selector() -> TCPPortSelector:
-    return MagicMock(spec=TCPPortSelector)
+def dummy_tcp_port_selector() -> ITCPPortSelector:
+    return MagicMock(spec=ITCPPortSelector)
 
 
 @pytest.fixture

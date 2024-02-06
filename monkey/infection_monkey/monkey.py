@@ -13,6 +13,7 @@ from pathlib import Path, WindowsPath
 from tempfile import gettempdir
 from typing import Optional, Sequence, Tuple
 
+from agentpluginapi import IAgentBinaryRepository, LocalMachineInfo
 from monkeyevents import (
     AgentEventTag,
     AgentShutdownEvent,
@@ -22,6 +23,15 @@ from monkeyevents import (
     PropagationEvent,
 )
 from monkeyevents.tags.attack import SYSTEM_INFORMATION_DISCOVERY_T1082_TAG
+from monkeytoolbox import (
+    create_secure_directory,
+    del_key,
+    get_binary_io_sha256_hash,
+    get_my_ip_addresses,
+    get_network_interfaces,
+    get_os,
+    secure_generate_random_string,
+)
 from monkeytypes import OTP, AgentPluginType, NetworkPort, OperatingSystem, SocketAddress
 from pubsub.core import Publisher
 from serpentarium import PluginLoader, PluginThreadName
@@ -34,10 +44,6 @@ from common.agent_events import (
 from common.agent_registration_data import AgentRegistrationData
 from common.common_consts import AGENT_OTP_ENVIRONMENT_VARIABLE
 from common.event_queue import IAgentEventQueue, PyPubSubAgentEventQueue, QueuedAgentEventPublisher
-from common.network.network_utils import get_my_ip_addresses, get_network_interfaces
-from common.utils.code_utils import del_key, secure_generate_random_string
-from common.utils.environment import get_os
-from common.utils.file_utils import create_secure_directory, get_binary_io_sha256_hash
 from infection_monkey.agent_event_handlers import (
     AgentEventForwarder,
     add_stolen_credentials_to_propagation_credentials_repository,
@@ -45,7 +51,6 @@ from infection_monkey.agent_event_handlers import (
 )
 from infection_monkey.exploit import (
     CachingAgentBinaryRepository,
-    IAgentBinaryRepository,
     IslandAPIAgentOTPProvider,
     PolymorphicAgentBinaryRepositoryDecorator,
 )
@@ -63,7 +68,6 @@ from infection_monkey.island_api_client import (
     IslandAPIAuthenticationError,
     IslandAPIError,
 )
-from infection_monkey.local_machine_info import LocalMachineInfo
 from infection_monkey.master import AutomatedMaster
 from infection_monkey.network import TCPPortSelector
 from infection_monkey.network.firewall import app as firewall
@@ -414,7 +418,6 @@ class InfectionMonkey:
         create_plugin = partial(
             MultiprocessingPluginWrapper,
             plugin_loader=plugin_loader,
-            reset_modules_cache=False,
             main_thread_name=PluginThreadName.CALLING_THREAD,
         )
 
